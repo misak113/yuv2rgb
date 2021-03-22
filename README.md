@@ -1,5 +1,5 @@
 # yuv2rgb
-C library for fast image conversion between yuv420p and rgb24.
+Go and C library for fast image conversion between yuv420p and rgb24.
 
 This is a simple library for optimized image conversion between YUV420p and rgb24.
 It was done mainly as an exercise to learn to use sse instrinsics, so there may still be room for optimization.
@@ -11,6 +11,24 @@ The library also supports the three different YUV (YCrCb to be correct) color sp
 There is a simple test program, that convert a raw YUV file to rgb ppm format, and measure computation time.
 Optionnaly, it also compares the result and computation time with the ffmpeg implementation (that uses MMX), and with the IPP functions.
 
+## GoLang target
+### Usage
+```sh
+go get github.com/misak113/yuv2rgb
+```
+
+### Test
+To run tests, simply do:
+```sh
+make test
+```
+
+To run benchmarks, simply do:
+```sh
+make bench
+```
+
+## C
 To compile, simply do :
 
     mkdir build
