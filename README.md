@@ -19,9 +19,9 @@ To compile, simply do :
     make
 
 The test program only support raw YUV files for the YUV420 format, and ppm for the RGB24 format.
-To generate a raw yuv file, you can use avconv:
+To generate a raw yuv file, you can use ffmpeg:
 
-    avconv -i example.jpg -c:v rawvideo -pix_fmt yuv420p example.yuv
+    ffmpeg -i example.jpg -c:v rawvideo -pix_fmt yuv420p example.yuv
 
 To generate the rgb file, you can use the ImageMagick convert program:
 
