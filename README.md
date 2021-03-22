@@ -60,3 +60,33 @@ And for rgb2yuv:
     Processing time (ipp_aligned) : 0.579043 sec
 
 configuration : gcc 4.9.2, swscale 3.0.0, IPP 9.0.1, intel i7-5500U
+
+## FFMPEG
+Using ffmpeg implementation, compile with `USE_FFMPEG=1` cflag:
+
+```sh
+cmake -DUSE_FFMPEG=1 -DCMAKE_BUILD_TYPE=Release ..
+```
+
+The requirements is to have installed `ffmpeg`. Debian installation:
+```sh
+sudo apt install ffmpeg
+```
+
+## IPP (Intel Integrated Performance Primitives)
+Using IPP implementation, compile with `USE_IPP=1` and optionally `IPP_ROOT=/opt/intel/oneapi/ipp/latest` cflags:
+
+```sh
+cmake -DUSE_IPP=1 -DIPP_ROOT=/opt/intel/oneapi/ipp/latest -DCMAKE_BUILD_TYPE=Release ..
+```
+
+And then, don't forget to add path of libraries to `LD_LIBRARY_PATH`.
+
+```sh
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/intel/oneapi/ipp/latest/lib/intel64
+```
+
+The requirements is to have installed `intel-basekit`. See debian manual here: https://software.intel.com/content/www/us/en/develop/articles/installing-intel-oneapi-toolkits-via-apt.html
+
+## Combined
+You can combine more `USE_` cflags together.
