@@ -11,10 +11,10 @@ endif(USE_FFMPEG)
 
 set(USE_IPP FALSE CACHE BOOL "Enable IPP")
 if(USE_IPP)
-	set(IPP_ROOT /opt/intel CACHE PATH "IPP install path")
+	set(IPP_ROOT /opt/intel/oneapi/ipp/latest CACHE PATH "IPP install path")
 	
-	include_directories(${IPP_ROOT}/ipp/include)
-	link_directories(${IPP_ROOT}/ipp/lib/intel64)
+	include_directories(${IPP_ROOT}/include)
+	link_directories(${IPP_ROOT}/lib/intel64)
 	add_definitions(-DUSE_IPP=1)
 endif(USE_IPP)
 
