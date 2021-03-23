@@ -23,9 +23,9 @@ type testCase struct {
 
 func TestConvertRGBAToYCbCrImageStandard(t *testing.T) {
 	cases := []testCase{
-		{"./data/test1.ppm", "./data/test1_standard.yuv"},
-		{"./data/test2.ppm", "./data/test2_standard.yuv"},
-		{"./data/test3.ppm", "./data/test3_standard.yuv"},
+		{"../data/test1.ppm", "../data/test1_standard.yuv"},
+		{"../data/test2.ppm", "../data/test2_standard.yuv"},
+		{"../data/test3.ppm", "../data/test3_standard.yuv"},
 	}
 	for _, c := range cases {
 		testConvertRGBAToYCbCrImageCase(t, c, ConvertRGBAToYCbCrImageStandard, nil, nil)
@@ -34,9 +34,9 @@ func TestConvertRGBAToYCbCrImageStandard(t *testing.T) {
 
 func TestConvertRGBAToYCbCrImageSSEUnaligned(t *testing.T) {
 	cases := []testCase{
-		{"./data/test1.ppm", "./data/test1_sseunaligned.yuv"},
-		{"./data/test2.ppm", "./data/test2_sseunaligned.yuv"},
-		{"./data/test3.ppm", "./data/test3_sseunaligned.yuv"},
+		{"../data/test1.ppm", "../data/test1_sseunaligned.yuv"},
+		{"../data/test2.ppm", "../data/test2_sseunaligned.yuv"},
+		{"../data/test3.ppm", "../data/test3_sseunaligned.yuv"},
 	}
 	for _, c := range cases {
 		testConvertRGBAToYCbCrImageCase(t, c, ConvertRGBAToYCbCrImageSSEUnaligned, nil, nil)
@@ -45,9 +45,9 @@ func TestConvertRGBAToYCbCrImageSSEUnaligned(t *testing.T) {
 
 func TestConvertRGBAToYCbCrImageIPP(t *testing.T) {
 	cases := []testCase{
-		{"./data/test1.ppm", "./data/test1_ipp.yuv"},
-		{"./data/test2.ppm", "./data/test2_ipp.yuv"},
-		{"./data/test3.ppm", "./data/test3_ipp.yuv"},
+		{"../data/test1.ppm", "../data/test1_ipp.yuv"},
+		{"../data/test2.ppm", "../data/test2_ipp.yuv"},
+		{"../data/test3.ppm", "../data/test3_ipp.yuv"},
 	}
 	for _, c := range cases {
 		testConvertRGBAToYCbCrImageCase(t, c, ConvertRGBAToYCbCrImageIPP, nil, nil)
@@ -56,21 +56,21 @@ func TestConvertRGBAToYCbCrImageIPP(t *testing.T) {
 
 func BenchmarkConvertRGBAToYCbCrImageStandardSmall(b *testing.B) {
 	b.StopTimer()
-	c := testCase{"./data/test1.ppm", "./data/test1_standard.yuv"}
+	c := testCase{"../data/test1.ppm", "../data/test1_standard.yuv"}
 	for i := 0; i < b.N; i++ {
 		testConvertRGBAToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageStandard, b.StartTimer, b.StopTimer)
 	}
 }
 
 func BenchmarkConvertRGBAToYCbCrImageSSEUnalignedSmall(b *testing.B) {
-	c := testCase{"./data/test1.ppm", "./data/test1_sseunaligned.yuv"}
+	c := testCase{"../data/test1.ppm", "../data/test1_sseunaligned.yuv"}
 	for i := 0; i < b.N; i++ {
 		testConvertRGBAToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageSSEUnaligned, b.StartTimer, b.StopTimer)
 	}
 }
 
 func BenchmarkConvertRGBAToYCbCrImageIPPSmall(b *testing.B) {
-	c := testCase{"./data/test1.ppm", "./data/test1_ipp.yuv"}
+	c := testCase{"../data/test1.ppm", "../data/test1_ipp.yuv"}
 	for i := 0; i < b.N; i++ {
 		testConvertRGBAToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageIPP, b.StartTimer, b.StopTimer)
 	}
@@ -78,21 +78,21 @@ func BenchmarkConvertRGBAToYCbCrImageIPPSmall(b *testing.B) {
 
 func BenchmarkConvertRGBAToYCbCrImageStandardMedium(b *testing.B) {
 	b.StopTimer()
-	c := testCase{"./data/test2.ppm", "./data/test2_standard.yuv"}
+	c := testCase{"../data/test2.ppm", "../data/test2_standard.yuv"}
 	for i := 0; i < b.N; i++ {
 		testConvertRGBAToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageStandard, b.StartTimer, b.StopTimer)
 	}
 }
 
 func BenchmarkConvertRGBAToYCbCrImageSSEUnalignedMedium(b *testing.B) {
-	c := testCase{"./data/test2.ppm", "./data/test2_sseunaligned.yuv"}
+	c := testCase{"../data/test2.ppm", "../data/test2_sseunaligned.yuv"}
 	for i := 0; i < b.N; i++ {
 		testConvertRGBAToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageSSEUnaligned, b.StartTimer, b.StopTimer)
 	}
 }
 
 func BenchmarkConvertRGBAToYCbCrImageIPPMedium(b *testing.B) {
-	c := testCase{"./data/test2.ppm", "./data/test2_ipp.yuv"}
+	c := testCase{"../data/test2.ppm", "../data/test2_ipp.yuv"}
 	for i := 0; i < b.N; i++ {
 	}
 	testConvertRGBAToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageIPP, b.StartTimer, b.StopTimer)
@@ -100,21 +100,21 @@ func BenchmarkConvertRGBAToYCbCrImageIPPMedium(b *testing.B) {
 
 func BenchmarkConvertRGBAToYCbCrImageStandardLarge(b *testing.B) {
 	b.StopTimer()
-	c := testCase{"./data/test3.ppm", "./data/test3_standard.yuv"}
+	c := testCase{"../data/test3.ppm", "../data/test3_standard.yuv"}
 	for i := 0; i < b.N; i++ {
 		testConvertRGBAToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageStandard, b.StartTimer, b.StopTimer)
 	}
 }
 
 func BenchmarkConvertRGBAToYCbCrImageSSEUnalignedLarge(b *testing.B) {
-	c := testCase{"./data/test3.ppm", "./data/test3_sseunaligned.yuv"}
+	c := testCase{"../data/test3.ppm", "../data/test3_sseunaligned.yuv"}
 	for i := 0; i < b.N; i++ {
 		testConvertRGBAToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageSSEUnaligned, b.StartTimer, b.StopTimer)
 	}
 }
 
 func BenchmarkConvertRGBAToYCbCrImageIPPLarge(b *testing.B) {
-	c := testCase{"./data/test3.ppm", "./data/test3_ipp.yuv"}
+	c := testCase{"../data/test3.ppm", "../data/test3_ipp.yuv"}
 	for i := 0; i < b.N; i++ {
 		testConvertRGBAToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageIPP, b.StartTimer, b.StopTimer)
 	}

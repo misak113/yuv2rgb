@@ -4,7 +4,7 @@ import (
 	/*
 		#cgo CFLAGS: -DUSE_IPP=1
 		#cgo LDFLAGS: -lippcc -lippcore
-		#include <yuv_rgb.c>
+		#include <../yuv_rgb.c>
 	*/
 	"C"
 
