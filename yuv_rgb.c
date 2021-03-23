@@ -7,6 +7,9 @@
 
 #include <stdio.h>
 
+#if USE_IPP
+#include <ippcc.h>
+#endif
 
 uint8_t clamp(int16_t value)
 {
@@ -1301,3 +1304,45 @@ void nv21_rgb24_sseu(
 
 
 #endif //__SSE2__
+
+#if USE_IPP
+void yuv420_bgr24_ipp(uint32_t width, uint32_t height,
+	const uint8_t *y, const uint8_t *u, const uint8_t *v, uint32_t y_stride, uint32_t uv_stride,
+	uint8_t *bgr, uint32_t bgr_stride,
+	YCbCrType __attribute__ ((unused)) yuv_type)
+{
+	const Ipp8u* pSrc[3] = {y, u, v};
+	int srcStep[3] = {y_stride, uv_stride, uv_stride};
+	Ipp8u* pDst = bgr;
+	int dstStep = bgr_stride;
+	IppiSize imgSize = {.width=width, .height=height};
+	ippiYCbCr420ToBGR_8u_P3C3R(pSrc, srcStep, pDst, dstStep, imgSize);
+}
+
+void bgr24_yuv420_ipp(uint32_t width, uint32_t height,
+	const uint8_t *bgr, uint32_t bgr_stride,
+	uint8_t *y, uint8_t *u, uint8_t *v, uint32_t y_stride, uint32_t uv_stride,
+	YCbCrType __attribute__ ((unused)) yuv_type)
+{
+	const Ipp8u* pSrc = bgr;
+	int srcStep = bgr_stride;
+	Ipp8u* pDst[3] = {y, u, v};
+	int dstStep[3] = {y_stride, uv_stride, uv_stride};
+	IppiSize imgSize = {.width=width, .height=height};
+	ippiBGRToYCbCr420_8u_C3P3R(pSrc, srcStep, pDst, dstStep, imgSize);
+}
+
+void bgr32_yuv420_ipp(uint32_t width, uint32_t height,
+	const uint8_t *bgr, uint32_t bgr_stride,
+	uint8_t *y, uint8_t *u, uint8_t *v, uint32_t y_stride, uint32_t uv_stride,
+	YCbCrType __attribute__ ((unused)) yuv_type)
+{
+	const Ipp8u* pSrc = bgr;
+	int srcStep = bgr_stride;
+	Ipp8u* pDst[3] = {y, u, v};
+	int dstStep[3] = {y_stride, uv_stride, uv_stride};
+	IppiSize imgSize = {.width=width, .height=height};
+	ippiBGRToYCbCr420_8u_AC4P3R(pSrc, srcStep, pDst, dstStep, imgSize);
+}
+
+#endif

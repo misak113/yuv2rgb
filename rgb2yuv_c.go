@@ -1,9 +1,5 @@
 package yuv2rgb
 
-import (
-	"C"
-)
-
 type ycbcrType int
 
 // YCbCrType enum of conversion type
