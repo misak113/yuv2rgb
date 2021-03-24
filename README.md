@@ -17,15 +17,55 @@ Optionnaly, it also compares the result and computation time with the ffmpeg imp
 go get github.com/misak113/yuv2rgb
 ```
 
+```go
+import (
+    yuv2rgb "github.com/misak113/yuv2rgb/go"
+)
+
+func main() {
+    // ...
+    ycbcrImg, err := yuv2rgb.ConvertImageToYCbCrImage(rgbaImg)
+}
+```
+
+> You have to add following environment variables configuration to your `go build` compilation.
+
+> IPP (of oneapi) is usually installed in different than standard location `/opt/intel/oneapi/ipp/latest/`. So GoLang compiler cannot find it by default.
+
+> It should be compiled with static linking to prevent user's of application to have installed oneapi which is kind a large.
+
+> Also, see [IPP (Intel Integrated Performance Primitives)](#IPP (Intel Integrated Performance Primitives)) notes below.
+
+```sh
+export CGO_CFLAGS="-g -O2 -I/opt/intel/oneapi/ipp/latest/include"
+export CGO_LDFLAGS="-Wl,-Bstatic -lippcc -lippcore -g -O2 -L/opt/intel/oneapi/ipp/latest/lib/intel64 -Wl,-Bdynamic"
+```
+
 ### Test
 To run tests, simply do:
 ```sh
+cd go
 make test
 ```
 
 To run benchmarks, simply do:
 ```sh
+cd go
 make bench
+```
+#### benchmarks output
+```
+goos: linux
+goarch: amd64
+BenchmarkConvertRGBAToYCbCrImageStandardSmall-4             4202            285576 ns/op
+BenchmarkConvertRGBAToYCbCrImageSSEUnalignedSmall-4        16311             70406 ns/op
+BenchmarkConvertRGBAToYCbCrImageIPPSmall-4                165366              6579 ns/op
+BenchmarkConvertRGBAToYCbCrImageStandardMedium-4               3         405089247 ns/op
+BenchmarkConvertRGBAToYCbCrImageSSEUnalignedMedium-4           6         189779372 ns/op
+BenchmarkConvertRGBAToYCbCrImageIPPMedium-4             1000000000               1.03 ns/op
+BenchmarkConvertRGBAToYCbCrImageStandardLarge-4                3         444012528 ns/op
+BenchmarkConvertRGBAToYCbCrImageSSEUnalignedLarge-4            7         166926969 ns/op
+BenchmarkConvertBGRAToYCbCrImageIPPLarge-4                    69          15423310 ns/op
 ```
 
 ## C
