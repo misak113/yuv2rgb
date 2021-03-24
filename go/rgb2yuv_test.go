@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/lmittmann/ppm"
+	"github.com/misak113/yuv2rgb/go/imgext"
 	"github.com/stretchr/testify/require"
 )
 
@@ -28,7 +29,7 @@ func TestConvertRGBAToYCbCrImageStandard(t *testing.T) {
 		{"../data/test3.ppm", "../data/test3_standard.yuv"},
 	}
 	for _, c := range cases {
-		testConvertRGBAToYCbCrImageCase(t, c, ConvertRGBAToYCbCrImageStandard, nil, nil)
+		testConvertImageToYCbCrImageCase(t, c, ConvertRGBAToYCbCrImageStandard, nil, nil, nil)
 	}
 }
 
@@ -39,7 +40,7 @@ func TestConvertRGBAToYCbCrImageSSEUnaligned(t *testing.T) {
 		{"../data/test3.ppm", "../data/test3_sseunaligned.yuv"},
 	}
 	for _, c := range cases {
-		testConvertRGBAToYCbCrImageCase(t, c, ConvertRGBAToYCbCrImageSSEUnaligned, nil, nil)
+		testConvertImageToYCbCrImageCase(t, c, ConvertRGBAToYCbCrImageSSEUnaligned, nil, nil, nil)
 	}
 }
 
@@ -50,7 +51,7 @@ func TestConvertRGBAToYCbCrImageIPP(t *testing.T) {
 		{"../data/test3.ppm", "../data/test3_ipp.yuv"},
 	}
 	for _, c := range cases {
-		testConvertRGBAToYCbCrImageCase(t, c, ConvertRGBAToYCbCrImageIPP, nil, nil)
+		testConvertImageToYCbCrImageCase(t, c, nil, ConvertBGRAToYCbCrImageIPP, nil, nil)
 	}
 }
 
@@ -58,21 +59,21 @@ func BenchmarkConvertRGBAToYCbCrImageStandardSmall(b *testing.B) {
 	b.StopTimer()
 	c := testCase{"../data/test1.ppm", "../data/test1_standard.yuv"}
 	for i := 0; i < b.N; i++ {
-		testConvertRGBAToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageStandard, b.StartTimer, b.StopTimer)
+		testConvertImageToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageStandard, nil, b.StartTimer, b.StopTimer)
 	}
 }
 
 func BenchmarkConvertRGBAToYCbCrImageSSEUnalignedSmall(b *testing.B) {
 	c := testCase{"../data/test1.ppm", "../data/test1_sseunaligned.yuv"}
 	for i := 0; i < b.N; i++ {
-		testConvertRGBAToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageSSEUnaligned, b.StartTimer, b.StopTimer)
+		testConvertImageToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageSSEUnaligned, nil, b.StartTimer, b.StopTimer)
 	}
 }
 
 func BenchmarkConvertRGBAToYCbCrImageIPPSmall(b *testing.B) {
 	c := testCase{"../data/test1.ppm", "../data/test1_ipp.yuv"}
 	for i := 0; i < b.N; i++ {
-		testConvertRGBAToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageIPP, b.StartTimer, b.StopTimer)
+		testConvertImageToYCbCrImageCase(b, c, nil, ConvertBGRAToYCbCrImageIPP, b.StartTimer, b.StopTimer)
 	}
 }
 
@@ -80,14 +81,14 @@ func BenchmarkConvertRGBAToYCbCrImageStandardMedium(b *testing.B) {
 	b.StopTimer()
 	c := testCase{"../data/test2.ppm", "../data/test2_standard.yuv"}
 	for i := 0; i < b.N; i++ {
-		testConvertRGBAToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageStandard, b.StartTimer, b.StopTimer)
+		testConvertImageToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageStandard, nil, b.StartTimer, b.StopTimer)
 	}
 }
 
 func BenchmarkConvertRGBAToYCbCrImageSSEUnalignedMedium(b *testing.B) {
 	c := testCase{"../data/test2.ppm", "../data/test2_sseunaligned.yuv"}
 	for i := 0; i < b.N; i++ {
-		testConvertRGBAToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageSSEUnaligned, b.StartTimer, b.StopTimer)
+		testConvertImageToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageSSEUnaligned, nil, b.StartTimer, b.StopTimer)
 	}
 }
 
@@ -95,35 +96,39 @@ func BenchmarkConvertRGBAToYCbCrImageIPPMedium(b *testing.B) {
 	c := testCase{"../data/test2.ppm", "../data/test2_ipp.yuv"}
 	for i := 0; i < b.N; i++ {
 	}
-	testConvertRGBAToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageIPP, b.StartTimer, b.StopTimer)
+	testConvertImageToYCbCrImageCase(b, c, nil, ConvertBGRAToYCbCrImageIPP, b.StartTimer, b.StopTimer)
 }
 
 func BenchmarkConvertRGBAToYCbCrImageStandardLarge(b *testing.B) {
 	b.StopTimer()
 	c := testCase{"../data/test3.ppm", "../data/test3_standard.yuv"}
 	for i := 0; i < b.N; i++ {
-		testConvertRGBAToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageStandard, b.StartTimer, b.StopTimer)
+		testConvertImageToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageStandard, nil, b.StartTimer, b.StopTimer)
 	}
 }
 
 func BenchmarkConvertRGBAToYCbCrImageSSEUnalignedLarge(b *testing.B) {
 	c := testCase{"../data/test3.ppm", "../data/test3_sseunaligned.yuv"}
 	for i := 0; i < b.N; i++ {
-		testConvertRGBAToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageSSEUnaligned, b.StartTimer, b.StopTimer)
+		testConvertImageToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageSSEUnaligned, nil, b.StartTimer, b.StopTimer)
 	}
 }
 
-func BenchmarkConvertRGBAToYCbCrImageIPPLarge(b *testing.B) {
+func BenchmarkConvertBGRAToYCbCrImageIPPLarge(b *testing.B) {
 	c := testCase{"../data/test3.ppm", "../data/test3_ipp.yuv"}
 	for i := 0; i < b.N; i++ {
-		testConvertRGBAToYCbCrImageCase(b, c, ConvertRGBAToYCbCrImageIPP, b.StartTimer, b.StopTimer)
+		testConvertImageToYCbCrImageCase(b, c, nil, ConvertBGRAToYCbCrImageIPP, b.StartTimer, b.StopTimer)
 	}
 }
 
-func testConvertRGBAToYCbCrImageCase(
+// ConvertRGBAToYCbCrImageType is func type of Convert(RGBA|BGRA)ToYCbCrImage
+type ConvertImageToYCbCrImageType func(rgba image.Image) (*image.YCbCr, error)
+
+func testConvertImageToYCbCrImageCase(
 	t require.TestingT,
 	c testCase,
-	convertRGBAToYCbCrImageFn ConvertRGBAToYCbCrImageType,
+	convertRGBAToYCbCrImageFn rgbaToYCbCrFnType,
+	convertBGRAToYCbCrImageFn bgraToYCbCrFnType,
 	beforeFn func(),
 	afterFn func(),
 ) {
@@ -147,12 +152,26 @@ func testConvertRGBAToYCbCrImageCase(
 	cLen := cStride * ((height + 1) / 2) // ((width + 1) / 2) * ((height + 1) / 2)
 	//fmt.Println("YUV image", yStride, cStride, yLen, cLen)
 
-	if beforeFn != nil {
-		beforeFn()
-	}
-	ycbcrImg, err := convertRGBAToYCbCrImageFn(rgbaImg.(*image.RGBA))
-	if afterFn != nil {
-		afterFn()
+	var ycbcrImg *image.YCbCr
+	if convertRGBAToYCbCrImageFn != nil {
+		if beforeFn != nil {
+			beforeFn()
+		}
+		ycbcrImg, err = convertRGBAToYCbCrImageFn(rgbaImg.(*image.RGBA))
+		if afterFn != nil {
+			afterFn()
+		}
+	} else if convertBGRAToYCbCrImageFn != nil {
+		bgraImg := imgext.ConvertRGBAToBGRA(rgbaImg.(*image.RGBA))
+		if beforeFn != nil {
+			beforeFn()
+		}
+		ycbcrImg, err = convertBGRAToYCbCrImageFn(bgraImg)
+		if afterFn != nil {
+			afterFn()
+		}
+	} else {
+		panic("One fn for convert has to be specified")
 	}
 
 	if writeSnapshots {

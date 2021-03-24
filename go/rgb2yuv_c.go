@@ -1,5 +1,12 @@
 package yuv2rgb
 
+import (
+	/*
+		#include <../yuv_rgb.c>
+	*/
+	"C"
+)
+
 type ycbcrType int
 
 // YCbCrType enum of conversion type
